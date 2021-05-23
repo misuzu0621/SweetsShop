@@ -1,0 +1,67 @@
+main {
+    padding-top: 90px;
+    padding-bottom: 50px;
+}
+
+.buy_msg {
+    text-align: center;
+    margin: 50px 0;
+}
+
+.buy_item {
+    height: 200px;
+}
+
+.item_img {
+    float: left;
+    margin-right: 20px;
+}
+
+.buy_info {
+    display: flex;
+}
+
+.buy_info p {
+    flex: 1;
+}
+
+.sum {
+    margin-left: 750px;
+}
+
+
+/* タブレット用 */
+@media screen and (max-width: 999px) {
+    
+    .sum {
+        margin-left: 0;
+        text-align: center;
+    }
+}
+
+
+/* スマホ用 */
+@media screen and (max-width: 599px) {
+    
+    main {
+        padding-top: 60px;
+    }
+    
+    .buy_item {
+        height: auto;
+    }
+    
+    .item_img {
+        float: none;
+        margin-right: 0;
+    }
+    
+    .buy_info {
+        display: block;
+    }
+    
+    .sum {
+        text-align: left;
+        margin-top: 40px;
+    }
+}

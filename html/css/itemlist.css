@@ -1,0 +1,33 @@
+main {
+    padding-top: 90px;
+    padding-bottom: 20px;
+}
+
+.item_info {
+    margin: 0;
+}
+
+.item form {
+    display: flex;
+}
+
+.item form p {
+    flex: 1;
+}
+
+span {
+    color: #ff0000;
+}
+
+
+/* スマホ用 */
+@media screen and (max-width: 599px) {
+    
+    main {
+        padding-top: 60px;
+    }
+    
+    .item form {
+        display: block;
+    }
+}

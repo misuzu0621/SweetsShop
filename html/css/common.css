@@ -1,0 +1,312 @@
+html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-family: serif;
+}
+
+header, footer {
+    flex: 0 0 auto;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+a {
+    display: block;
+    text-decoration: none;
+}
+
+input {
+    outline: none;
+    font-family: serif;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+/* ヘッダー */
+
+header {
+    background-color: #8b4513;
+    position: fixed;
+    width: 100%;
+    color: #daa520;
+}
+
+h1 {
+    float: left;
+    font-family: 'Monotype Corsiva';
+    margin: 0;
+    line-height: 60px;
+}
+
+/* ヘッダー(メニュー) */
+
+.menus {
+    float: right;
+}
+
+.menus p {
+    float: left;
+    margin: 0;
+}
+
+.menu {
+    float: left;
+    display: flex;
+}
+
+.menus p, .menu a {
+    line-height: 60px;
+    margin: 0 10px;
+}
+
+.menu img {
+    height: 24px;
+    margin-right: 1px;
+}
+
+.category {
+    clear: both;
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.category li {
+    flex: 1;
+    text-align: center;
+    border-right: solid 1px #daa521;
+    line-height: 25px;
+}
+
+.category li:last-child {
+    border-right: 0;
+}
+
+header a {
+    color: #daa520;
+}
+
+header a:hover {
+    font-weight: bold;
+}
+
+header a:active {
+    color: #ffd700;
+}
+
+/* ヘッダー(スマホ用メニュー) */
+
+#menu_contents {
+    position: absolute;
+    top: 0;
+    right: -150px;
+    width: 150px;
+    height: 100vh;
+    background-color: #8b4513;
+    transition: .5s;
+}
+
+#menu_contents p {
+    padding-left: 30px;
+}
+
+#menu_contents a {
+    padding: 5px 0 5px 30px;
+}
+
+#menu_icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 100%;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.line {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background-color: #daa520;
+}
+
+#line1 {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    transition: .1s;
+}
+
+#line2 {
+    position: absolute;
+    top: 29px;
+    right: 15px;
+    transition: .1s;
+}
+
+#line3 {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    transition: .1s;
+}
+
+/* ハンバーガーメニューがクリックされたとき */
+
+#menu_contents.active {
+    right: 0;
+}
+
+#menu_icon.active {
+    right: 150px;
+}
+
+#line1.active {
+    transform: rotate(45deg);
+    top: 50%;
+}
+
+#line2.active {
+    opacity: 0;
+}
+
+#line3.active {
+    transform: rotate(-45deg);
+    top: 50%;
+}
+
+/* メイン */
+
+h2 {
+    font-weight: normal;
+    border-bottom: solid 1px #daa520;
+    margin: 30px 0;
+}
+
+.err_msg {
+    color: #ff0000;
+}
+
+/* 商品一覧 */
+
+.items {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item {
+    margin: 0 10px 30px;
+}
+
+.item_img {
+    width: 230px;
+    height: 170px;
+    object-fit: cover;
+}
+
+/* ボタン */
+
+.submit {
+    border: solid 1px #8b4513;
+    background-color: #daa520;
+    color: #8b4513;
+}
+
+.submit:hover {
+    background-color: #b8860b;
+}
+
+.submit:active {
+    background-color: #ffd700;
+}
+
+/* ログイン・新規登録ボタン */
+
+.login_register {
+    border-radius: 3px;
+}
+
+.login_register:hover {
+    background-color: #d3d3d3;
+}
+
+.login_register:active {
+    background-color: #a9a9a9;
+}
+
+/* テキストボックス */
+
+.textbox {
+    border-bottom: solid 1px #a9a9a9;
+}
+
+.amount {
+    border: solid 1px #000000;
+    width: 75px;
+}
+
+/* フッター */
+
+footer {
+    background-color: #8b4513;
+    height: 40px;
+}
+
+
+/* タブレット用 */
+@media screen and (max-width: 999px) {
+    
+    .container {
+        width: 95%;
+    }
+}
+
+
+/* スマホ用 */
+@media screen and (max-width: 599px) {
+    
+    .menus, .category {
+        display: none;
+    }
+    
+    .menu_contents p, .menu_contents li {
+        font-size: 120%;
+    }
+    
+    .item_img {
+        width: 100%;
+        height: auto;
+        object-fit: none;
+    }
+    
+    .submit {
+        width: 100%;
+    }
+    
+    .amount {
+        width: 50%;
+    }
+}
+
+
+@media screen and (min-width: 600px) {
+    
+    .hum_menu {
+        display: none;
+    }
+}

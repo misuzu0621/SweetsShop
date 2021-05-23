@@ -1,0 +1,81 @@
+main {
+    padding-top: 90px;
+    padding-bottom: 50px;
+}
+
+.cart_item {
+    height: 200px;
+}
+
+.item_img {
+    float: left;
+    margin-right: 20px;
+}
+
+.cart_info {
+    display: flex;
+}
+
+.cart_info>p, .cart_info form {
+    flex: 1;
+    line-height: 50px;
+}
+
+.sum {
+    margin-left: 625px;
+}
+
+.buy {
+    display: block;
+    margin: 50px auto;
+    font-size: 20px;
+}
+
+span {
+    color: #ff0000;
+}
+
+
+/* タブレット用 */
+@media screen and (max-width: 999px) {
+    
+    .sum {
+        margin-left: 0;
+        text-align: center;
+    }
+}
+
+
+/* スマホ用 */
+@media screen and (max-width: 599px) {
+    
+    main {
+        padding-top: 60px;
+    }
+    
+    .cart_item {
+        height: auto;
+    }
+    
+    .item_img {
+        float: none;
+        margin-right: 0;
+    }
+    
+    .cart_info {
+        display: block;
+    }
+    
+    .cart_info>p, .cart_info form {
+        line-height: 100%;
+    }
+    
+    .update {
+        width: 30%;
+    }
+    
+    .sum {
+        text-align: left;
+        margin-top: 40px;
+    }
+}

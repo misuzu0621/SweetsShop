@@ -1,0 +1,33 @@
+section {
+    border-top: solid 1px #000000;
+    padding-bottom: 20px;
+}
+
+p {
+    margin: 0;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+caption {
+    text-align: left;
+}
+
+.private {
+    background-color: #d3d3d3;
+}
+
+th, td {
+    border: solid 1px #000000;
+    padding: 10px;
+}
+
+td {
+    text-align: center;
+}
+
+img {
+    height: 100px;
+}
