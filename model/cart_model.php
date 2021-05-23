@@ -151,7 +151,7 @@ function buy($dbh, $user_id, $rows) {
         }
     }
     $_SESSION['history_id'] = $history_id;
-    header('Location: finish.php');
+    header('Location: ' . FINISH_URL);
     exit;
 }
 

@@ -49,7 +49,7 @@ function confirmation_user_id($rows) {
     $err_msg = '';
     if (isset($rows[0]['user_id'])) {
         $_SESSION['user_id'] = $rows[0]['user_id'];
-        header('Location: itemlist.php');
+        header('Location: ' . ITEMLIST_URL);
         exit;
     } else {
         $err_msg = 'ユーザ名またはパスワードが正しくありません';

@@ -1,11 +1,11 @@
 <?php
 
 // 設定ファイル読み込み
-require_once '../../include/SweetsShop/conf/const.php';
+require_once '../conf/const.php';
 
 // 関数ファイル読み込み
-require_once '../../include/SweetsShop/model/common_model.php';
-require_once '../../include/SweetsShop/model/login_model.php';
+require_once MODEL_PATH . 'common_model.php';
+require_once MODEL_PATH . 'login_model.php';
 
 
 session_start();
@@ -65,4 +65,4 @@ try {
 
 
 // viewファイル読み込み
-include_once '../../include/SweetsShop/view/login_view.php';
+include_once VIEW_PATH . 'login_view.php';
