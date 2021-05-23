@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+        <!-- head.php読み込み -->
+        <?php include VIEW_PATH . 'templates/head.php'; ?>
         <title>SweetsShop ログイン</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/4.1.0/sanitize.min.css">
         <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common.css'; ?>">
         <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'login.css'; ?>">
     </head>
     <body>
         <header>
-            <div class="container">
-                <h1>Sweets Shop</h1>
-            </div>
+            <!-- header.php読み込み -->
+            <?php include VIEW_PATH . 'templates/header.php'; ?>
         </header>
         <main>
             <div class="container">
