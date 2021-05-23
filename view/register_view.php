@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
         <title>SweetsShop 新規ユーザ登録</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/4.1.0/sanitize.min.css">
-        <link rel="stylesheet" href="./css/common.css">
-        <link rel="stylesheet" href="./css/register.css">
+        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common.css'; ?>">
+        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'register.css'; ?>">
     </head>
     <body>
         <header>

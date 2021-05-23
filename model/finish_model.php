@@ -10,7 +10,7 @@ function confirmation_history_id() {
         return $_SESSION['history_id'];
         unset($_SESSION['history_id']);
     } else {
-        header('Location: cart.php');
+        header('Location: ' . CART_URL);
         exit;
     }
 }

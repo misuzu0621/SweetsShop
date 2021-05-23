@@ -1,11 +1,11 @@
 <?php
 
 // 設定ファイル読み込み
-require_once '../../include/SweetsShop/conf/const.php';
+require_once '../conf/const.php';
 
 // 関数ファイル読み込み
-require_once '../../include/SweetsShop/model/common_model.php';
-require_once '../../include/SweetsShop/model/itemlist_baked_model.php';
+require_once MODEL_PATH . 'common_model.php';
+require_once MODEL_PATH . 'itemlist_baked_model.php';
 
 
 $category = '焼き菓子';
@@ -93,4 +93,4 @@ try {
 }
 
 
-include_once '../../include/SweetsShop/view/itemlist_view.php';
+include_once VIEW_PATH . 'itemlist_view.php';

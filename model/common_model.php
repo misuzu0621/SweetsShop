@@ -61,7 +61,7 @@ function entity_assoc_array($assoc_array) {
  */
 function session_login() {
     if (isset($_SESSION['user_id'])) {
-        header('Location: itemlist.php');
+        header('Location: ' . ITEMLIST_URL);
         exit;
     }
 }
@@ -75,7 +75,7 @@ function get_user_id() {
     if (isset($_SESSION['user_id'])) {
         return $_SESSION['user_id'];
     } else {
-        header('Location: login.php');
+        header('Location: ' . LOGIN_URL);
         exit;
     }
 }
@@ -114,7 +114,7 @@ function confirmation_username($rows) {
     if (isset($rows[0]['username'])) {
         return $rows[0]['username'];
     } else {
-        header('Location: logout.php');
+        header('Location: ' . LOGOUT_URL);
         exit;
     }
 }

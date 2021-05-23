@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>SweetsShop 商品管理ページ</title>
-        <link rel="stylesheet" href="./css/admin.css">
+        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'admin.css'; ?>">
     </head>
     <body>
         <!-- エラーメッセージ挿入 -->
@@ -68,7 +68,7 @@
                 <?php foreach ($rows as $row) { ?>
                 <tr class="<?php if ((int)$row['status'] === 0) { print 'private'; } ?>"><!-- ステータスが非公開のとき クラス名:private -->
                     <td><!-- 商品画像 -->
-                        <img src="<?php print IMG_DIR . $row['img']; ?>"><br>
+                        <img src="<?php print ITEM_IMAGE_PATH . $row['img']; ?>"><br>
                         <form method="post" enctype="multipart/form-data">
                             <input type="file" name="img"><br>
                             <input type="submit" value="変更">

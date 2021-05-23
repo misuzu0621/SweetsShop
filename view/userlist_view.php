@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>SweetsShop ユーザ管理ページ</title>
-        <link rel="stylesheet" href="./css/userlist.css">
+        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'userlist.css'; ?>">
     </head>
     <body>
         <h1>ユーザ管理ページ</h1>
