@@ -1,14 +1,19 @@
 <?php
 
+// 汎用関数ファイル読み込み
+require_once MODEL_PATH . 'common_model.php';
+
+
 /**
- * セッション変数から購入完了かどうか確認、セッション変数のhistory_idを削除
- * 購入完了していない場合、ショッピングカートページへリダイレクト
+ * $_SESSION['history_id']取得, $_SESSION['history_id']破棄
+ * 購入完了していないときカートページへ
  * @return array $_SESSION['history_id'] 履歴ID
  */
 function confirmation_history_id() {
     if (isset($_SESSION['history_id'])) {
-        return $_SESSION['history_id'];
+        $history_id = $_SESSION['history_id'];
         unset($_SESSION['history_id']);
+        return $history_id;
     } else {
         header('Location: ' . CART_URL);
         exit;
@@ -23,31 +28,22 @@ function confirmation_history_id() {
  */
 function get_buy_items($dbh, $history_id) {
     $rows = array();
-    $dbh->beginTransaction();
-    try {
-        foreach ($history_id as $key => $value) {
-            $sql = 'SELECT
-                        SS_history.item_id,
-                        SS_history.price_history,
-                        SS_history.tax_history,
-                        SS_history.amount,
-                        SS_items.name,
-                        SS_items.img
-                    FROM
-                        SS_history
-                        INNER JOIN SS_items
-                        ON SS_history.item_id = SS_items.item_id
-                    WHERE
-                        history_id = ?;';
-            $stmt = $dbh->prepare($sql);
-            $stmt->bindValue(1, $value, PDO::PARAM_INT);
-            $stmt->execute();
-            $rows[] = $stmt->fetch();
-        }
-        $dbh->commit();
-    } catch (PDOException $e) {
-        $dbh->rollback();
-        throw $e;
+    foreach ($history_id as $key => $value) {
+        $sql = 'SELECT
+                    SS_history.item_id,
+                    SS_history.price_history,
+                    SS_history.tax_history,
+                    SS_history.amount,
+                    items.name,
+                    items.img
+                FROM
+                    SS_history
+                    INNER JOIN items
+                    ON SS_history.item_id = items.item_id
+                WHERE
+                    history_id = ?';
+        $params = array($value);
+        $rows[] = fetch_query($dbh, $sql, $params);
     }
     return $rows;
 }

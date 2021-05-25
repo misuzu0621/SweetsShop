@@ -1,5 +1,9 @@
 <?php
 
+// 汎用関数ファイル読み込み
+require_once MODEL_PATH . 'common_model.php';
+
+
 /**
  * おすすめ商品に追加のチェックがないとき0を代入する
  * @param  str   $recommend POST値
@@ -261,282 +265,203 @@ function get_success_msg($action) {
 }
 
 /**
- * データベースに新規商品を追加
+ * 新規商品登録
  * @param  obj   $dbh       DBハンドル
- * @param  str   $name      POST値
- * @param  str   $price     POST値
- * @param  str   $tax       POST値
- * @param  str   $stock     POST値
- * @param  str   $type      POST値
- * @param  str   $recommend POST値
- * @param  str   $img       POST値
- * @param  str   $status    POST値
+ * @param  str   $name      商品名
+ * @param  str   $price     値段
+ * @param  str   $tax       税率
+ * @param  str   $stock     在庫数
+ * @param  str   $type      カテゴリ
+ * @param  str   $recommend おすすめ
+ * @param  str   $img       画像ファイル名
+ * @param  str   $status    ステータス
  */
 function insert_item($dbh, $name, $price, $tax, $stock, $type, $recommend, $img, $status) {
-    try {
-        $sql = 'INSERT INTO SS_items
-                    (name, price, tax, stock, type, recommend, img, status, createdate, updatedate)
-                VALUES
-                    (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW());';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $name, PDO::PARAM_STR);
-        $stmt->bindValue(2, $price, PDO::PARAM_INT);
-        $stmt->bindValue(3, $tax, PDO::PARAM_INT);
-        $stmt->bindValue(4, $stock, PDO::PARAM_INT);
-        $stmt->bindValue(5, $type, PDO::PARAM_INT);
-        $stmt->bindValue(6, $recommend, PDO::PARAM_INT);
-        $stmt->bindValue(7, $img, PDO::PARAM_STR);
-        $stmt->bindValue(8, $status, PDO::PARAM_INT);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
-    }
+    $sql = 'INSERT INTO items
+                (name, price, tax, stock, type, recommend, img, status)
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?)';
+    $params = array($name, $price, $tax, $stock, $type, $recommend, $img, $status);
+    execute_query($dbh, $sql, $params);
 }
 
 /**
- * データベースの商品画像をアップデートする
+ * 商品画像をアップデート
  * @param  obj   $dbh     DBハンドル
- * @param  str   $img     POST値
- * @param  str   $item_id POST値
+ * @param  str   $img     画像ファイル名
+ * @param  str   $item_id 商品ID
  */
 function update_img($dbh, $img, $item_id) {
-    try {
-        $sql = 'UPDATE
-                    SS_items
-                SET
-                    img = ?,
-                    updatedate = NOW()
-                WHERE
-                    item_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $img, PDO::PARAM_STR);
-        $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
-    }
+    $sql = 'UPDATE
+                items
+            SET
+                img = ?,
+                updatedate = NOW()
+            WHERE
+                item_id = ?';
+    $params = array($img, $item_id);
+    execute_query($dbh, $sql, $params);
 }
 
 /**
- * データベースの商品名をアップデートする
+ * 商品名をアップデート
  * @param  obj   $dbh     DBハンドル
- * @param  str   $name    POST値
- * @param  str   $item_id POST値
+ * @param  str   $name    商品名
+ * @param  str   $item_id 商品ID
  */
 function update_name($dbh, $name, $item_id) {
-    try {
-        $sql = 'UPDATE
-                    SS_items
-                SET
-                    name = ?,
-                    updatedate = NOW()
-                WHERE
-                    item_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $name, PDO::PARAM_STR);
-        $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
-    }
+    $sql = 'UPDATE
+                items
+            SET
+                name = ?,
+                updatedate = NOW()
+            WHERE
+                item_id = ?';
+    $params = array($name, $item_id);
+    execute_query($dbh, $sql, $params);
 }
 
 /**
- * データベースの価格をアップデートする
+ * 価格をアップデート
  * @param  obj   $dbh     DBハンドル
- * @param  str   $price   POST値
- * @param  str   $item_id POST値
+ * @param  str   $price   価格
+ * @param  str   $item_id 商品ID
  */
 function update_price($dbh, $price, $item_id) {
-    try {
-        $sql = 'UPDATE
-                    SS_items
-                SET
-                    price = ?,
-                    updatedate = NOW()
-                WHERE
-                    item_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $price, PDO::PARAM_STR);
-        $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
-    }
+    $sql = 'UPDATE
+                items
+            SET
+                price = ?,
+                updatedate = NOW()
+            WHERE
+                item_id = ?';
+    $params = array($price, $item_id);
+    execute_query($dbh, $sql, $params);
 }
 
 /**
- * データベースの税率をアップデートする
+ * 税率をアップデート
  * @param  obj   $dbh     DBハンドル
- * @param  str   $tax     POST値
- * @param  str   $item_id POST値
+ * @param  str   $tax     税率
+ * @param  str   $item_id 商品ID
  */
 function update_tax($dbh, $tax, $item_id) {
-    try {
-        $sql = 'UPDATE
-                    SS_items
-                SET
-                    tax = ?,
-                    updatedate = NOW()
-                WHERE
-                    item_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $tax, PDO::PARAM_STR);
-        $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
-    }
+    $sql = 'UPDATE
+                items
+            SET
+                tax = ?,
+                updatedate = NOW()
+            WHERE
+                item_id = ?';
+    $params = array($tax, $item_id);
+    execute_query($dbh, $sql, $params);
 }
 
 /**
- * データベースの在庫数をアップデートする
+ * 在庫数をアップデート
  * @param  obj   $dbh     DBハンドル
- * @param  str   $stock   POST値
- * @param  str   $item_id POST値
+ * @param  str   $stock   在庫数
+ * @param  str   $item_id 商品ID
  */
 function update_stock($dbh, $stock, $item_id) {
-    try {
-        $sql = 'UPDATE
-                    SS_items
-                SET
-                    stock = ?,
-                    updatedate = NOW()
-                WHERE
-                    item_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $stock, PDO::PARAM_STR);
-        $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
-    }
+    $sql = 'UPDATE
+                items
+            SET
+                stock = ?,
+                updatedate = NOW()
+            WHERE
+                item_id = ?';
+    $params = array($stock, $item_id);
+    execute_query($dbh, $sql, $params);
 }
 
 /**
- * データベースのカテゴリをアップデートする
+ * カテゴリをアップデート
  * @param  obj   $dbh     DBハンドル
- * @param  str   $type    POST値
- * @param  str   $item_id POST値
+ * @param  str   $type    カテゴリ
+ * @param  str   $item_id 商品ID
  */
 function update_type($dbh, $type, $item_id) {
-    try {
-        $sql = 'UPDATE
-                    SS_items
-                SET
-                    type = ?,
-                    updatedate = NOW()
-                WHERE
-                    item_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $type, PDO::PARAM_STR);
-        $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
-    }
+    $sql = 'UPDATE
+                items
+            SET
+                type = ?,
+                updatedate = NOW()
+            WHERE
+                item_id = ?';
+    $params = array($type, $item_id);
 }
 
 /**
- * データベースのおすすめをアップデートする
+ * おすすめをアップデート
  * @param  obj   $dbh       DBハンドル
- * @param  str   $recommend POST値
- * @param  str   $item_id   POST値
+ * @param  str   $recommend おすすめ
+ * @param  str   $item_id   商品ID
  */
 function update_recommend($dbh, $recommend, $item_id) {
-    try {
-        $sql = 'UPDATE
-                    SS_items
-                SET
-                    recommend = ?,
-                    updatedate = NOW()
-                WHERE
-                    item_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $recommend, PDO::PARAM_STR);
-        $stmt->bindValue(2, $item_id, PDO::PARAM_INT);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
-    }
+    $sql = 'UPDATE
+                items
+            SET
+                recommend = ?,
+                updatedate = NOW()
+            WHERE
+                item_id = ?';
+    $params = array($recommend, $item_id);
+    execute_query($dbh, $sql, $params);
 }
 
 /**
- * データベースのステータスをアップデートする
+ * ステータスをアップデート
  * @param  obj   $dbh     DBハンドル
- * @param  str   $status  POST値
- * @param  str   $item_id POST値
+ * @param  str   $status  ステータス
+ * @param  str   $item_id 商品ID
  */
 function update_status($dbh, $status, $item_id) {
     if ((int)$status === 0) {
-        try {
-            $sql = 'UPDATE
-                        SS_items
-                    SET
-                        status = 1,
-                        updatedate = NOW()
-                    WHERE
-                        item_id = ?;';
-            $stmt = $dbh->prepare($sql);
-            $stmt->bindValue(1, $item_id, PDO::PARAM_INT);
-            $stmt->execute();
-        } catch (PDOException $e) {
-            throw $e;
-        }
+        $sql = 'UPDATE
+                    items
+                SET
+                    status = 1,
+                    updatedate = NOW()
+                WHERE
+                    item_id = ?';
     } else {
-        try {
-            $sql = 'UPDATE
-                        SS_items
-                    SET
-                        status = 0,
-                        updatedate = NOW()
-                    WHERE
-                        item_id = ?;';
-            $stmt = $dbh->prepare($sql);
-            $stmt->bindValue(1, $item_id, PDO::PARAM_INT);
-            $stmt->execute();
-        } catch (PDOException $e) {
-            throw $e;
-        }
+        $sql = 'UPDATE
+                    items
+                SET
+                    status = 0,
+                    updatedate = NOW()
+                WHERE
+                    item_id = ?';
     }
+    $params = array($item_id);
+    execute_query($dbh, $sql, $params);
 }
 
 /**
- * 商品を削除する
+ * 商品削除
  * @param  obj   $dbh     DBハンドル
- * @param  str   $item_id POST値
+ * @param  str   $item_id 商品ID
  */
 function delete_item($dbh, $item_id) {
-    try {
-        $sql = 'DELETE
-                FROM
-                    SS_items
-                WHERE
-                    item_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $item_id, PDO::PARAM_INT);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
-    }
+    $sql = 'DELETE
+            FROM
+                items
+            WHERE
+                item_id = ?';
+    $params = array($item_id);
+    execute_query($dbh, $sql, $params);
 }
 
 /**
- * 商品一覧を取得する
+ * 商品一覧取得(二次元連想配列)
  * @param  obj   $dbh  DBハンドル
- * @return array $rows 商品一覧配列データ
+ * @return array 取得したレコード
  */
 function get_itemlist($dbh) {
-    try {
-        $sql = 'SELECT
-                    item_id, name, price, tax, stock, type, recommend, img, status
-                FROM
-                    SS_items;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-    } catch (PDOException $e) {
-        throw $e;
-    }
-    return $rows;
+    $sql = 'SELECT
+                item_id, name, price, tax, stock, type, recommend, img, status
+            FROM
+                items';
+    return fetch_all_query($dbh, $sql, $params);
 }

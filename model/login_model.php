@@ -1,5 +1,9 @@
 <?php
 
+// 汎用関数ファイル読み込み
+require_once MODEL_PATH . 'common_model.php';
+
+
 /**
  * クッキー情報からユーザ名を取得する
  * @return str   $username ユーザ名
@@ -13,42 +17,34 @@ function cookie_get_username() {
 }
 
 /**
- * ユーザIDを取得する
+ * ユーザデータ(ユーザID)取得(連想配列)
  * @param  obj   $dbh      DBハンドル
- * @param  str   $username POST値
- * @param  str   $password POST値
- * @return array $row      ユーザ情報配列
+ * @param  str   $username ユーザ名
+ * @param  str   $password パスワード
+ * @return array 取得したレコード
  */
-function db_get_user_id($dbh, $username, $password) {
-    try {
-        $sql = 'SELECT
-                    user_id
-                FROM
-                    SS_users
-                WHERE
-                    username = ?
-                    AND password = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $username, PDO::PARAM_STR);
-        $stmt->bindValue(2, $password, PDO::PARAM_STR);
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-    } catch (PDOException $e) {
-        throw $e;
-    }
-    return $rows;
+function get_user($dbh, $username, $password) {
+    $sql = 'SELECT
+                user_id
+            FROM
+                users
+            WHERE
+                username = ?
+                AND password = ?';
+    $params = array($username, $password);
+    return fetch_query($dbh, $sql, $params);
 }
 
 /**
- * 登録データを取得できたか確認、セッション変数にユーザIDを保存し、商品一覧ページへリダイレクト
- * 取得できない場合、エラーメッセージを取得
- * @param  array $rows     ユーザID配列
+ * ユーザデータ(ユーザID)を取得できたとき、セッション変数にユーザIDを保存し商品一覧ページへ
+ * 取得出来ないとき、エラーメッセージ取得
+ * @param  array $row      ユーザデータ(ユーザID)
  * @return array $err_msgs エラーメッセージ
  */
-function confirmation_user_id($rows) {
+function confirmation_user_id($row) {
     $err_msg = '';
-    if (isset($rows[0]['user_id'])) {
-        $_SESSION['user_id'] = $rows[0]['user_id'];
+    if (isset($row['user_id'])) {
+        $_SESSION['user_id'] = $row['user_id'];
         header('Location: ' . ITEMLIST_URL);
         exit;
     } else {
@@ -58,24 +54,17 @@ function confirmation_user_id($rows) {
 }
 
 /**
- * おすすめ商品情報テーブルを取得
+ * おすすめの商品データ取得(二次元連想配列)
  * @param  obj   $dbh  DBハンドル
- * @return array $rows おすすめ商品情報配列
+ * @return array 取得したレコード
  */
-function db_get_recommend_items($dbh) {
-    try {
-        $sql = 'SELECT
-                    name, img
-                FROM
-                    SS_items
-                WHERE
-                    recommend = 1
-                    AND status = 1;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-    } catch (PDOException $e) {
-        throw $e;
-    }
-    return $rows;
+function get_recommend_items($dbh) {
+    $sql = 'SELECT
+                name, img
+            FROM
+                items
+            WHERE
+                recommend = 1
+                AND status = 1';
+    return fetch_all_query($dbh, $sql);
 }

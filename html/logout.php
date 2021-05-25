@@ -7,6 +7,7 @@ require_once '../conf/const.php';
 require_once MODEL_PATH . 'logout_model.php';
 
 
+// セッション開始
 session_start();
 
 // セッション名取得
@@ -21,6 +22,6 @@ delete_session_id($session_name);
 // セッションIDを無効化
 session_destroy();
 
-// ログアウト処理が完了したらログインページへリダイレクト
-header('Location: login.php');
+// ログアウト処理が完了したらログインページへ
+header('Location: ' . LOGIN_URL);
 exit;

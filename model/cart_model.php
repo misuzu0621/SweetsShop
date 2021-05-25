@@ -1,34 +1,35 @@
 <?php
 
+// 汎用関数ファイル読み込み
+require_once MODEL_PATH . 'common_model.php';
+
+
 /**
- * カートテーブルの商品情報を取得
+ * カートの商品データ取得(二次元連想配列)
  * @param  obj   $dbh     DBハンドル
  * @param  str   $user_id ユーザID
- * @return array $rows    商品一覧配列
+ * @return array 取得したレコード
  */
-function get_cart_status($dbh, $user_id) {
-    try {
-        $sql = 'SELECT
-                    SS_carts.item_id,
-                    SS_carts.amount,
-                    SS_items.price,
-                    SS_items.tax,
-                    SS_items.stock,
-                    SS_items.status
-                FROM
-                    SS_carts
-                    INNER JOIN SS_items
-                    ON SS_carts.item_id = SS_items.item_id
-                WHERE
-                    SS_carts.user_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-    } catch (PDOException $e) {
-        throw $e;
-    }
-    return $rows;
+function get_cart_items($dbh, $user_id) {
+    $sql = 'SELECT
+                carts.cart_id,
+                carts.item_id,
+                carts.amount,
+                items.name,
+                items.price,
+                items.tax,
+                items.stock,
+                items.img,
+                items.status
+            FROM
+                carts
+                INNER JOIN items
+                ON carts.item_id = items.item_id
+            WHERE
+                carts.user_id = ?
+                AND items.status = 1';
+    $params = array($user_id);
+    return fetch_all_query($dbh, $sql, $params);
 }
 
 /**
@@ -53,166 +54,116 @@ function validate_cart_status($rows) {
 }
 
 /**
- * カートテーブルの個数をアップデート
+ * カートデータ(数量)アップデート
  * @param  obj   $dbh     DBハンドル
- * @param  str   $amount  個数
+ * @param  str   $amount  カートに入れる数量
  * @param  str   $cart_id カートID
  */
-function update_amount($dbh, $amount, $cart_id) {
-    try {
+function update_cart_amount($dbh, $amount, $cart_id) {
+    $sql = 'UPDATE
+                carts
+            SET
+                amount = ?,
+                updatedate = NOW()
+            WHERE
+                cart_id = ?';
+    $params = array($amount, $cart_id);
+    execute_query($dbh, $sql, $params);
+}
+
+/**
+ * カートの商品削除
+ * @param  obj   $dbh     DBハンドル
+ * @param  str   $cart_id カートID
+ */
+function delete_cart_item($dbh, $cart_id) {
+    $sql = 'DELETE
+            FROM
+                carts
+            WHERE
+                cart_id = ?';
+    $params = array($cart_id);
+    execute_query($dbh, $sql, $params);
+}
+
+/**
+ * 商品データ(在庫数)アップデート
+ * @param  obj   $dbh  DBハンドル
+ * @param  array カートデータ
+ */
+function update_items_stock($dbh, $rows) {
+    foreach ($rows as $row) {
+        $stock = $row['stock'] - $row['amount'];
         $sql = 'UPDATE
-                    SS_carts
+                    items
                 SET
-                    amount = ?,
+                    stock = ?,
                     updatedate = NOW()
                 WHERE
-                    cart_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $amount, PDO::PARAM_INT);
-        $stmt->bindValue(2, $cart_id, PDO::PARAM_INT);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
+                    item_id = ?';
+        $params = array($stock, $row['item_id']);
+        execute_query($dbh, $sql, $params);
     }
 }
 
 /**
- * カートテーブルの商品を削除
- * @param  obj   $dbh     DBハンドル
- * @param  str   $cart_id カートID
+ * カートデータ削除
+ * @param  obj   $dbh  DBハンドル
+ * @param  array カートデータ
  */
-function delete_item($dbh, $cart_id) {
-    try {
+function delete_carts($dbh, $rows) {
+    foreach ($rows as $row) {
         $sql = 'DELETE
                 FROM
-                    SS_carts
+                    carts
                 WHERE
-                    cart_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $cart_id, PDO::PARAM_INT);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
+                    cart_id = ?';
+        $params = array($row['cart_id']);
+        execute_query($dbh, $sql, $params);
     }
 }
 
 /**
- * 商品一覧テーブルの在庫数をアップデート、カートテーブルを削除、履歴テーブルに追加
+ * 購入履歴登録
+ * @param  obj   $dbh     DBハンドル
+ * @param  str   $user_id ユーザID
+ * @param  array カートデータ
+ * @return array $history_id 購入履歴ID
+ */
+function insert_historys($dbh, $user_id, $rows) {
+    $history_id = array();
+    foreach ($rows as $row) {
+        $sql = 'INSERT INTO SS_history
+                    (user_id, item_id, price_history, tax_history, amount)
+                VALUES
+                    (?, ?, ?, ?, ?)';
+        $params = array($user_id, $row['item_id'], $row['price'], $row['tax'], $row['amount']);
+        execute_query($dbh, $sql, $params);
+        $history_id[] = $dbh->lastInsertId();
+    }
+    return $history_id;
+}
+
+/**
+ * 商品データ(在庫数)アップデート,カートデータ削除,購入履歴登録
  * 成功したら購入完了ページへリダイレクト
  * @param  obj   $dbh     DBハンドル
  * @param  str   $user_id ユーザID
  * @param  array $rows    カートの商品一覧配列
  */
 function buy($dbh, $user_id, $rows) {
-    $history_id = array();
-    foreach ($rows as $row) {
-        $stock = $row['stock'] - $row['amount'];
+    try {
         $dbh->beginTransaction();
-        try {
-            $sql = 'UPDATE
-                        SS_items
-                    SET
-                        stock = ?,
-                        updatedate = NOW()
-                    WHERE
-                        item_id = ?;';
-            $stmt = $dbh->prepare($sql);
-            $stmt->bindValue(1, $stock, PDO::PARAM_INT);
-            $stmt->bindValue(2, $row['item_id'], PDO::PARAM_INT);
-            $stmt->execute();
-            
-            $sql = 'DELETE
-                    FROM
-                        SS_carts
-                    WHERE
-                        user_id = ?;';
-            $stmt = $dbh->prepare($sql);
-            $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
-            $stmt->execute();
-            
-            $sql = 'INSERT INTO SS_history
-                        (user_id, item_id, price_history, tax_history, amount, createdate)
-                    VALUES
-                        (?, ?, ?, ?, ?, NOW());';
-            $stmt = $dbh->prepare($sql);
-            $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
-            $stmt->bindValue(2, $row['item_id'], PDO::PARAM_INT);
-            $stmt->bindValue(3, $row['price'], PDO::PARAM_INT);
-            $stmt->bindValue(4, $row['tax'], PDO::PARAM_INT);
-            $stmt->bindValue(5, $row['amount'], PDO::PARAM_INT);
-            $stmt->execute();
-            
-            $history_id[] = $dbh->lastInsertId();
-            
-            $dbh->commit();
-        } catch (PDOException $e) {
-            $dbh->rollback();
-            throw $e;
-        }
+        update_items_stock($dbh, $rows);
+        delete_carts($dbh, $rows);
+        $history_id = insert_historys($dbh, $user_id, $rows);
+        $dbh->commit();
+    } catch (PDOException $e) {
+        throw $e;
     }
     $_SESSION['history_id'] = $history_id;
     header('Location: ' . FINISH_URL);
     exit;
-}
-
-/**
- * カートに入っている非公開の商品を削除、カートに入れた商品一覧を取得
- * @param  obj   $dbh     DBハンドル
- * @param  str   $user_id ユーザID
- * @return array $rows    商品一覧配列
- */
-function get_cart_items($dbh, $user_id) {
-    $dbh->beginTransaction();
-    try {
-        $sql = 'SELECT
-                    item_id
-                FROM
-                    SS_items
-                WHERE
-                    status = 0;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-        
-        foreach ($rows as $row) {
-            $sql = 'DELETE
-                    FROM
-                        SS_carts
-                    WHERE
-                        user_id = ?
-                        AND item_id = ?;';
-            $stmt = $dbh->prepare($sql);
-            $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
-            $stmt->bindValue(2, $row['item_id'], PDO::PARAM_INT);
-            $stmt->execute();
-        }
-        
-        $sql = 'SELECT
-                    SS_carts.cart_id,
-                    SS_carts.item_id,
-                    SS_carts.amount,
-                    SS_items.name,
-                    SS_items.price,
-                    SS_items.tax,
-                    SS_items.stock,
-                    SS_items.img
-                FROM
-                    SS_carts
-                    INNER JOIN SS_items
-                    ON SS_carts.item_id = SS_items.item_id
-                WHERE
-                    user_id = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $user_id, PDO::PARAM_INT);
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-        
-        $dbh->commit();
-    } catch (PDOException $e) {
-        $dbh->rollback();
-        throw $e;
-    }
-    return $rows;
 }
 
 /**
