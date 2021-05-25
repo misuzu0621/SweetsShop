@@ -8,45 +8,35 @@ require_once MODEL_PATH . 'common_model.php';
 require_once MODEL_PATH . 'finish_model.php';
 
 
-$rows = array();
+$rows     = array();
+$err_msgs = array();
 
+// セッション開始
 session_start();
 
-// セッション変数からユーザIDを取得
-// 非ログインの場合、ログインページへリダイレクト
+// セッション変数からユーザID取得, 非ログインのときログインページへ
 $user_id = get_user_id();
 
 try {
     // DB接続
     $dbh = get_db_connect();
     
-    // ユーザテーブルからユーザ名を取得
-    $rows = get_username($dbh, $user_id);
-    
-    // 特殊文字をHTMLエンティティに変換
-    $rows = entity_assoc_array($rows);
+    // ユーザデータ(ユーザ名)取得
+    $row = get_username($dbh, $user_id);
     
 } catch (PDOException $e) {
     throw $e;
 }
 
-// ユーザ名が取得できたか確認
-// 確認できない場合、ログアウト処理へリダイレクト
-$username = confirmation_username($rows);
+// ユーザ名取得, 取得できないときログアウトページへ
+$username = confirmation_username($row);
 
-// セッション変数から購入完了かどうか確認、セッション変数のbuyを削除
-// 購入完了していない場合、ショッピングカートページへリダイレクト
+// 購入完了のとき$_SESSION['history_id']取得, そうでないときカートページへ
 $history_id = confirmation_history_id();
 
 try {
-    // DB接続
-    $dbh = get_db_connect();
-    
-    // 購入した商品一覧を取得
+    // 購入した商品データ取得
     $rows = get_buy_items($dbh, $history_id);
-    
-    // 特殊文字をHTMLエンティティに変換
-    $rows = entity_assoc_array($rows);
     
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();

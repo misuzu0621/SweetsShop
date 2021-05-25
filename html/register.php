@@ -8,19 +8,17 @@ require_once MODEL_PATH . 'common_model.php';
 require_once MODEL_PATH . 'register_model.php';
 
 
+// セッション開始
 session_start();
 
-// セッション変数からログイン済みか確認
-// セッション変数にユーザIDがセットされていたら商品一覧ページへリダイレクト
+// ログイン済のとき商品一覧ページへ
 session_login();
 
 $err_msgs  = array();
 $db_insert = false;
 
-// リクエストメソッドを取得
-$request_method = get_request_method();
-
-if ($request_method === 'POST') {
+// リクエストメソッドがPOSTのとき
+if (get_request_method() === 'POST') {
     
     // POST値取得
     $username = get_post_data('username');
@@ -35,17 +33,17 @@ if ($request_method === 'POST') {
             // DB接続
             $dbh = get_db_connect();
             
-            // データベースから同じユーザ名のユーザIDを取得
-            $rows = get_same_username($dbh, $username);
+            // 同じユーザ名のユーザデータを取得
+            $row = get_same_username($dbh, $username);
             
-            // 取得した配列が空のとき
-            if (empty($rows)) {
+            // 同じユーザ名のユーザがいないとき
+            if (empty($row)) {
                 
-                // データベースにユーザ情報を登録
+                // ユーザデータ登録
                 insert_user($dbh, $username, $password);
                 $db_insert = true;
                 
-            // 取得した配列が空でないとき
+            // 同じユーザ名のユーザがいるとき
             } else {
                 $err_msgs[] = 'そのユーザ名は既に使われています';
             }

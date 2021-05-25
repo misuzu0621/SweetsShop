@@ -18,9 +18,6 @@ try {
     // ユーザ一覧を取得
     $rows = get_userlist($dbh);
     
-    // 特殊文字をHTMLエンティティに変換
-    $rows = entity_assoc_array($rows);
-    
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();
 }

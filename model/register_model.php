@@ -1,9 +1,13 @@
 <?php
 
+// 汎用関数ファイル読み込み
+require_once MODEL_PATH . 'common_model.php';
+
+
 /**
  * 入力値チェック
- * @param  str   $username POST値
- * @param  str   $password POST値
+ * @param  str   $username ユーザ名
+ * @param  str   $password パスワード
  * @return array $err_msgs エラーメッセージ
  */
 function validate_post_data($username, $password) {
@@ -22,46 +26,33 @@ function validate_post_data($username, $password) {
 }
 
 /**
- * $usernameと同じユーザ名のユーザIDを取得
+ * $usernameと同じユーザ名のユーザIDを取得(連想配列)
  * @param  obj   $dbh      DBハンドル
- * @param  str   $username POST値
- * @return array $row      ユーザID配列
+ * @param  str   $username ユーザ名
+ * @return array 取得したレコード
  */
 function get_same_username($dbh, $username) {
-    try {
-        $sql = 'SELECT
-                    user_id
-                FROM
-                    SS_users
-                WHERE
-                    username = ?;';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $username, PDO::PARAM_STR);
-        $stmt->execute();
-        $rows = $stmt->fetchAll();
-    } catch (PDOException $e) {
-        throw $e;
-    }
-    return $rows;
+    $sql = 'SELECT
+                user_id
+            FROM
+                users
+            WHERE
+                username = ?';
+    $params = array($username);
+    return fetch_query($dbh, $sql, $params);
 }
 
 /**
- * データベースにユーザ情報を登録する
+ * ユーザデータ登録
  * @param  obj   $dbh      DBハンドル
- * @param  str   $username POST値
- * @param  str   $password POST値
+ * @param  str   $username ユーザ名
+ * @param  str   $password パスワード
  */
 function insert_user($dbh, $username, $password) {
-    try {
-        $sql = 'INSERT INTO SS_users
-                    (username, password, createdate, updatedate)
-                VALUES
-                    (?, ?, NOW(), NOW());';
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindValue(1, $username, PDO::PARAM_STR);
-        $stmt->bindValue(2, $password, PDO::PARAM_STR);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        throw $e;
-    }
+    $sql = 'INSERT INTO users
+                (username, password)
+            VALUES
+                (?, ?)';
+    $params = array($username, $password);
+    execute_query($dbh, $sql, $params);
 }

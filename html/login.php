@@ -8,22 +8,28 @@ require_once MODEL_PATH . 'common_model.php';
 require_once MODEL_PATH . 'login_model.php';
 
 
+// セッション開始
 session_start();
 
-// セッション変数からログイン済みか確認
-// セッション変数にユーザIDがセットされていたら商品一覧ページへリダイレクト
+// ログイン済のとき商品一覧ページへ
 session_login();
 
-// クッキー情報からユーザ名を取得
+// クッキーからユーザ名を取得
 $username = cookie_get_username();
 
 $rows     = array();
 $err_msgs = array();
 
-// リクエストメソッドを取得
-$request_method = get_request_method();
+try {
+    // DB接続
+    $dbh = get_db_connect();
+    
+} catch (PDOException $e) {
+    $err_msgs[] = $e->getMessage();
+}
 
-if ($request_method === 'POST') {
+// リクエストメソッドがPOSTのとき
+if (get_request_method() === 'POST') {
     
     // POST値取得
     $username = get_post_data('username');
@@ -32,32 +38,22 @@ if ($request_method === 'POST') {
     // ユーザ名をクッキーに保存
     setcookie('username', $username, time() + 60 * 60 * 24 * 365);
     
-    // ユーザIDの取得
     try {
-        // DB接続
-        $dbh = get_db_connect();
+        // ユーザデータ(ユーザID)取得(連想配列)
+        $row = get_user($dbh, $username, $password);
         
-        // ユーザIDを取得
-        $rows = db_get_user_id($dbh, $username, $password);
-    
     } catch (PDOException $e) {
         $err_msgs[] = $e->getMessage();
     }
     
-    // 登録データを取得できたか確認、セッション変数にユーザIDを保存し、商品一覧ページへリダイレクト
-    // 取得できない場合、エラーメッセージを取得
-    $err_msgs[] = confirmation_user_id($rows);
+    // ユーザデータ(ユーザID)を取得できたとき、セッション変数にユーザIDを保存し商品一覧ページへ
+    // 取得出来ないとき、エラーメッセージを取得
+    $err_msgs[] = confirmation_user_id($row);
 }
 
 try {
-    // DB接続
-    $dbh = get_db_connect();
-    
-    // おすすめ商品情報テーブルを取得
-    $rows = db_get_recommend_items($dbh);
-    
-    // 特殊文字をHTMLエンティティに変換
-    $rows = entity_assoc_array($rows);
+    // おすすめ商品データ取得(二次元連想配列)
+    $rows = get_recommend_items($dbh);
     
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();

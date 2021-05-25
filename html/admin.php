@@ -12,10 +12,16 @@ $rows        = array();
 $err_msgs    = array();
 $success_msg = '';
 
-// リクエストメソッドを取得
-$request_method = get_request_method();
+try {
+    // DB接続
+    $dbh = get_db_connect();
+    
+} catch (PDOException $e) {
+    $err_msgs[] = $e->getMessage();
+}
 
-if ($request_method === 'POST') {
+// リクエストメソッドがPOSTのとき
+if (get_request_method === 'POST') {
     
     // POST値を取得
     $action = get_post_data('action');
@@ -130,15 +136,12 @@ if ($request_method === 'POST') {
     if (count($err_msgs) === 0) {
     
         try {
-            // DB接続
-            $dbh = get_db_connect();
-            
             // 新規商品追加のとき
             if ($action === 'insert_item') {
                 
-                // データベースに新規商品を追加
+                // 新規商品追加
                 insert_item($dbh, $name, $price, $tax, $stock, $type, $recommend, $img, $status);
-                // 成功メッセージを取得
+                // 成功メッセージ取得
                 $success_msg = get_success_msg($action);
                 
             // 商品画像変更のとき
@@ -202,14 +205,9 @@ if ($request_method === 'POST') {
 }
 
 try {
-    // DB接続
-    $dbh = get_db_connect();
-    
     // 商品一覧を取得
     $rows = get_itemlist($dbh);
     
-    // 特殊文字をHTMLエンティティに変換
-    $rows = entity_assoc_array($rows);
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();
 }
