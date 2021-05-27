@@ -28,6 +28,7 @@
                         <p class="textbox"><label>ユーザ名&emsp;&emsp;<input type="text" name="username" value="<?php print h($username); ?>"></label></p>
                         <p class="textbox"><label>パスワード&emsp;<input type="password" name="password"></label></p>
                         <p><input type="submit" value="&rsaquo;&rsaquo;&nbsp;ログイン" class="login login_register"></p>
+                        <input type="hidden" name="token" value="<?php print $token; ?>">
                     </form>
                     <a href="<?php print REGISTER_URL; ?>" class="login_register">&rsaquo;&rsaquo;&nbsp;新規登録はこちら</a>
                 </div>

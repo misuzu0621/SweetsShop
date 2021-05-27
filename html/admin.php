@@ -23,6 +23,16 @@ try {
 // リクエストメソッドがPOSTのとき
 if (get_request_method === 'POST') {
     
+    // トークン取得
+    $token = get_post_data('token');
+    // トークンが正しくないとき
+    if (is_valid_token($token) === false) {
+        // ログインページへ
+        redirect_to(LOGIN_URL);
+    }
+    // トークン破棄
+    delete_token();
+    
     // POST値を取得
     $action = get_post_data('action');
     
@@ -211,6 +221,9 @@ try {
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();
 }
+
+// トークン生成
+$token = get_token();
 
 
 // viewファイル読み込み

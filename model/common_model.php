@@ -261,3 +261,42 @@ function add_cart($dbh, $user_id, $item_id, $amount) {
 function h($str) {
     return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }
+
+/**
+ * トークン生成
+ * return str   30文字のランダムな文字列
+ */
+function get_token() {
+    $token = substr(base_convert(hash('sha256', uniqid()), 16, 36), 0, 30);
+    $_SESSION['token'] = $token;
+    return $token;
+}
+
+/**
+ * トークンチェック
+ * @param  str   $token トークン
+ * @return bool
+ */
+function is_valid_token($token) {
+    if ($token === $_SESSION['token']) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * トークン破棄
+ */
+function delete_token() {
+    unset($_SESSION['token']);
+}
+
+/**
+ * リダイレクト
+ * @param  str   $url URL
+ */
+function redirect_to($url) {
+    header('Location: ' . $url);
+    exit;
+}

@@ -35,6 +35,16 @@ $username = confirmation_username($row);
 // リクエストメソッドがPOSTのとき
 if (get_request_method() === 'POST') {
     
+    // トークン取得
+    $token = get_post_data('token');
+    // トークンが正しくないとき
+    if (is_valid_token($token) === false) {
+        // ログインページへ
+        redirect_to(LOGIN_URL);
+    }
+    // トークン破棄
+    delete_token();
+    
     // POST値取得
     $amount  = get_post_data('amount');
     $item_id = get_post_data('item_id');
@@ -72,6 +82,9 @@ try {
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();
 }
+
+// トークン生成
+$token = get_token();
 
 
 // viewファイル読み込み

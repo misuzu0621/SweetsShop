@@ -40,12 +40,14 @@
                             <input type="hidden" name="action" value="update_amount">
                             <input type="hidden" name="cart_id" value="<?php print $row['cart_id']; ?>">
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                         <p>小計&nbsp;:&nbsp;<?php if ((int)$row['tax'] === 1) { print $row['price'] * $row['amount'] * TAX8K; } else { print $row['price'] * $row['amount'] * TAX10; } ?>円&nbsp;(税込)</p>
                         <form method="post">
                             <p><input type="submit" value="削除" class="submit update"></p>
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="cart_id" value="<?php print $row['cart_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                     </div>
                 </div>
@@ -55,6 +57,7 @@
                 <form method="post">
                     <input type="submit" value="購入する" class="submit buy">
                     <input type="hidden" name="action" value="buy">
+                    <input type="hidden" name="token" value="<?php print $token; ?>">
                 </form>
                 <?php } ?>
             </div>

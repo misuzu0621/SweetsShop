@@ -35,6 +35,7 @@
                     <p><label>パスワード&emsp;<input type="password" name="password" class="textbox"></label></p>
                     <p class="comment">ユーザ名とパスワードは半角英数字6文字以上で入力してください</p>
                     <p><input type="submit" value="&rsaquo;&rsaquo;&nbsp;新規登録" class="login_register"></p>
+                    <input type="hidden" name="token" value="<?php print $token; ?>">
                 </form>
                 <?php } ?>
             </div>

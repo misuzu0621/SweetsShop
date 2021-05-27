@@ -47,6 +47,7 @@
                 </p>
                 <p><input type="submit" value="商品追加"></p>
                 <input type="hidden" name="action" value="insert_item">
+                <input type="hidden" name="token" value="<?php print $token; ?>">
             </form>
         </section>
         <section>
@@ -74,6 +75,7 @@
                             <input type="submit" value="変更">
                             <input type="hidden" name="action" value="update_img">
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                     </td>
                     <td><!-- 商品名 -->
@@ -82,6 +84,7 @@
                             <input type="submit" value="変更">
                             <input type="hidden" name="action" value="update_name">
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                     </td>
                     <td><!-- 価格 -->
@@ -90,6 +93,7 @@
                             <input type="submit" value="変更">
                             <input type="hidden" name="action" value="update_price">
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                     </td>
                     <td><!-- 税率 -->
@@ -101,6 +105,7 @@
                             <input type="submit" value="変更">
                             <input type="hidden" name="action" value="update_tax">
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                     </td>
                     <td><!-- 在庫数 -->
@@ -109,6 +114,7 @@
                             <input type="submit" value="変更">
                             <input type="hidden" name="action" value="update_stock">
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                     </td>
                     <td><!-- カテゴリ -->
@@ -122,6 +128,7 @@
                             <input type="submit" value="変更">
                             <input type="hidden" name="action" value="update_type">
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                     </td>
                     <td><!-- おすすめ -->
@@ -130,6 +137,7 @@
                             <input type="submit" value="変更">
                             <input type="hidden" name="action" value="update_recommend">
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                     </td>
                     <td><!-- ステータス -->
@@ -138,6 +146,7 @@
                             <input type="hidden" name="action" value="update_status">
                             <input type="hidden" name="status" value="<?php print $row['status']; ?>">
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                     </td>
                     <td><!-- 削除 -->
@@ -145,6 +154,7 @@
                             <input type="submit" value="削除">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                     </td>
                 </tr>
