@@ -25,7 +25,7 @@
                 <?php } ?>
                 <div class="form">
                     <form method="post">
-                        <p class="textbox"><label>ユーザ名&emsp;&emsp;<input type="text" name="username" value="<?php print $username; ?>"></label></p>
+                        <p class="textbox"><label>ユーザ名&emsp;&emsp;<input type="text" name="username" value="<?php print h($username); ?>"></label></p>
                         <p class="textbox"><label>パスワード&emsp;<input type="password" name="password"></label></p>
                         <p><input type="submit" value="&rsaquo;&rsaquo;&nbsp;ログイン" class="login login_register"></p>
                     </form>
@@ -38,7 +38,7 @@
                         <?php foreach ($rows as $row) { ?>
                         <div class="item">
                             <p><img src="<?php print ITEM_IMAGE_PATH . $row['img']; ?>" class="item_img"></p>
-                            <p><?php print $row['name']; ?></p>
+                            <p><?php print h($row['name']); ?></p>
                         </div>
                         <?php } ?>
                     </div>

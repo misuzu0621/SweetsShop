@@ -24,7 +24,7 @@
                 <div>
                     <p class="date"><?php print $row['createdate']; ?></p>
                     <img src="<?php print ITEM_IMAGE_PATH . $row['img']; ?>" class="item_img">
-                    <p><?php print $row['name']; ?></p>
+                    <p><?php print h($row['name']); ?></p>
                     <div class="history_info">
                         <p>購入時&nbsp;:&nbsp;<?php if ((int)$row['tax_history'] === 1) { print $row['price_history'] * TAX8K; } else { print $row['price_history'] * TAX10; } ?>円&nbsp;(税込)</p>
                         <p><?php print $row['amount']; ?>個</p>
