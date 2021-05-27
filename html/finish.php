@@ -23,18 +23,13 @@ try {
     
     // ユーザデータ(ユーザ名)取得
     $row = get_username($dbh, $user_id);
+
+    // ユーザ名取得, 取得できないときログアウトページへ
+    $username = confirmation_username($row);
     
-} catch (PDOException $e) {
-    throw $e;
-}
+    // 購入完了のとき$_SESSION['history_id']取得, そうでないときカートページへ
+    $history_id = confirmation_history_id();
 
-// ユーザ名取得, 取得できないときログアウトページへ
-$username = confirmation_username($row);
-
-// 購入完了のとき$_SESSION['history_id']取得, そうでないときカートページへ
-$history_id = confirmation_history_id();
-
-try {
     // 購入した商品データ取得
     $rows = get_buy_items($dbh, $history_id);
     
