@@ -42,6 +42,7 @@
                             <p><input type="submit" value="もう一度カートに入れる" class="submit"></p>
                             <?php } ?>
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
+                            <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
                     </div>
                 </div>
