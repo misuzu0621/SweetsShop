@@ -25,7 +25,7 @@
                     <?php foreach ($rows as $row) { ?>
                     <div class="item">
                         <p><img src="<?php print ITEM_IMAGE_PATH . $row['img']; ?>" class="item_img"></p>
-                        <p class="item_info"><?php print $row['name']; ?></p>
+                        <p class="item_info"><?php print h($row['name']); ?></p>
                         <p class="item_info"><?php if ((int)$row['tax'] === 1) { print $row['price'] * TAX8K; } else { print $row['price'] * TAX10; } ?>円&nbsp;(税抜&nbsp;:&nbsp;<?php print $row['price']; ?>円)</p>
                         <form method="post">
                             <p><input type="text" name="amount" value="1" class="amount">個</p>

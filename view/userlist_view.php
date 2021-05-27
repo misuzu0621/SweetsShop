@@ -18,8 +18,8 @@
             <?php foreach ($rows as $row) { ?>
             <tr>
                 <td><?php print $row['user_id']; ?></td>
-                <td><?php print $row['username']; ?></td>
-                <td><?php print $row['password']; ?></td>
+                <td><?php print h($row['username']); ?></td>
+                <td><?php print h($row['password']); ?></td>
             </tr>
             <?php } ?>
         </table>

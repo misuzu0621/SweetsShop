@@ -92,20 +92,6 @@ function execute_query($dbh, $sql, $params = array()) {
 }
 
 /**
- * 特殊文字をHTMLエンティティに変換する(2次元配列)
- * @param  array $assoc_array 変換前配列
- * @return array $assoc_array 変換後配列
- */
-function entity_assoc_array($assoc_array) {
-    foreach ($assoc_array as $key => $value) {
-        foreach ($value as $keys => $values) {
-            $assoc_array[$key][$keys] = htmlspecialchars($values, ENT_QUOTES, 'UTF-8');
-        }
-    }
-    return $assoc_array;
-}
-
-/**
  * ログイン済のとき商品一覧ページへ
  */
 function session_login() {
@@ -265,4 +251,13 @@ function add_cart($dbh, $user_id, $item_id, $amount) {
     } else {
         update_cart($dbh, $user_id, $item_id, $amount, $row);
     }
+}
+
+/**
+ * 特殊文字をエスケープ処理
+ * @param  str   $str 文字列
+ * @return str   エスケープ処理された文字列
+ */
+function h($str) {
+    return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
 }

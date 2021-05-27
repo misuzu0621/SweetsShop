@@ -1,7 +1,7 @@
 <div class="container">
     <h1>Sweets Shop</h1>
     <div class="menus">
-        <p>ようこそ、<?php print $username; ?>さん</p>
+        <p>ようこそ、<?php print h($username); ?>さん</p>
         <div class="menu">
             <a href="<?php print HISTORY_URL; ?>"><img src="<?php print IMAGE_PATH . 'history.png'; ?>">購入履歴</a>
             <a href="<?php print CART_URL; ?>"><img src="<?php print IMAGE_PATH . 'cart.png'; ?>">カート</a>
@@ -26,7 +26,7 @@
             <span class="line" id="line3"></span>
         </div>
         <div id="menu_contents">
-            <p>ようこそ<br><?php print $username; ?>さん</p>
+            <p>ようこそ<br><?php print h($username); ?>さん</p>
             <nav>
                 <ul>
                     <li><a href="<?php print CART_URL; ?>">カート</a></li>

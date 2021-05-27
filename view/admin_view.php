@@ -78,7 +78,7 @@
                     </td>
                     <td><!-- 商品名 -->
                         <form method="post">
-                            <input type="text" name="name" value="<?php print $row['name']; ?>"><br>
+                            <input type="text" name="name" value="<?php print h($row['name']); ?>"><br>
                             <input type="submit" value="変更">
                             <input type="hidden" name="action" value="update_name">
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
