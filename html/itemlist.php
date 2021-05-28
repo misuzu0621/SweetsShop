@@ -8,7 +8,11 @@ require_once MODEL_PATH . 'common_model.php';
 require_once MODEL_PATH . 'itemlist_model.php';
 
 
-$category = '商品一覧';
+// $_GET['type_id']取得
+$type_id = get_get_data('type_id');
+// カテゴリ取得
+$category = get_category($type_id);
+
 $rows     = array();
 $err_msgs = array();
 

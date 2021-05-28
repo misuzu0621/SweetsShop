@@ -23,10 +23,10 @@ define('LOGIN_URL'             , '/login.php');              // ログインペ�
 define('ADMIN_URL'             , '/admin.php');              // 管理ページ
 define('USERLIST_URL'          , '/userlist.php');           // ユーザリストページ
 define('ITEMLIST_URL'          , '/itemlist.php');           // 商品一覧ページ
-define('ITEMLIST_BAKED_URL'    , '/itemlist_baked.php');     // 焼き菓子の商品一覧ページ
-define('ITEMLIST_CHOCOLATE_URL', '/itemlist_chocolate.php'); // ショコラの商品一覧ページ
-define('ITEMLIST_WESTERN_URL'  , '/itemlist_western.php');   // 洋菓子の商品一覧ページ
-define('ITEMLIST_JAPANESE_URL' , '/itemlist_japanese.php');  // 和菓子の商品一覧ページ
+define('ITEMLIST_BAKED_URL'    , '/itemlist.php?type_id=1'); // 焼き菓子の商品一覧ページ
+define('ITEMLIST_CHOCOLATE_URL', '/itemlist.php?type_id=2'); // ショコラの商品一覧ページ
+define('ITEMLIST_WESTERN_URL'  , '/itemlist.php?type_id=3'); // 洋菓子の商品一覧ページ
+define('ITEMLIST_JAPANESE_URL' , '/itemlist.php?type_id=4'); // 和菓子の商品一覧ページ
 define('CART_URL'              , '/cart.php');               // カートページ
 define('HISTORY_URL'           , '/history.php');            // 購入履歴ページ
 define('FINISH_URL'            , '/finish.php');             // 購入完了ページ
