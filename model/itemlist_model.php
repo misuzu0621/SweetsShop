@@ -5,6 +5,39 @@ require_once MODEL_PATH . 'common_model.php';
 
 
 /**
+ * GET値取得
+ * @param  str   $str    配列キー
+ * @return str   $string GET値
+ */
+function get_get_data($str) {
+    $string = '';
+    if (isset($_GET[$str])) {
+        $string = $_GET[$str];
+    }
+    return $string;
+}
+
+/**
+ * カテゴリ取得
+ * @param  str   $type_id  GET値
+ * @return str   $category カテゴリ
+ */
+function get_category($type_id) {
+    if ($type_id === '1') {
+        $category = '焼き菓子';
+    } else if ($type_id === '2') {
+        $category = 'ショコラ';
+    } else if ($type_id === '3') {
+        $category = '洋菓子';
+    } else if ($type_id === '4') {
+        $category = '和菓子';
+    } else {
+        $category = '商品一覧';
+    }
+    return $category;
+}
+
+/**
  * 商品データ取得(二次元連想配列)
  * @param  obj   $dbh      DBハンドル
  * @param  str   $category カテゴリ名
