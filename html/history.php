@@ -57,9 +57,11 @@ try {
             add_cart($dbh, $user_id, $item_id, $amount);
         }
     }
-
-    // 購入履歴データ取得(二次元連想配列)
-    $rows = get_history_items($dbh, $user_id);
+    
+    // 購入履歴データ取得
+    $orders = get_orders($dbh, $user_id);
+    
+    $order_details = get_order_details($dbh, $orders);
     
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();

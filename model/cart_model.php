@@ -127,21 +127,33 @@ function delete_carts($dbh, $rows) {
  * 購入履歴登録
  * @param  obj   $dbh     DBハンドル
  * @param  str   $user_id ユーザID
- * @param  array カートデータ
- * @return array $history_id 購入履歴ID
+ * return  int   追加された注文ID
  */
-function insert_historys($dbh, $user_id, $rows) {
-    $history_id = array();
+function insert_orders($dbh, $user_id) {
+    $sql = 'INSERT INTO orders
+                (user_id)
+            VALUES
+                (?)';
+    $params = array($user_id);
+    execute_query($dbh, $sql, $params);
+    return $dbh->lastInsertId();
+}
+
+/**
+ * 購入明細登録
+ * @param  obj   $dbh      DBハンドル
+ * @param  int   $order_id 注文ID
+ * @param  array $rows     カートデータ
+ */
+function insert_order_details($dbh, $order_id, $rows) {
     foreach ($rows as $row) {
-        $sql = 'INSERT INTO SS_history
-                    (user_id, item_id, price_history, tax_history, amount)
+        $sql = 'INSERT INTO order_details
+                    (order_id, item_id, order_price, order_tax, amount)
                 VALUES
                     (?, ?, ?, ?, ?)';
-        $params = array($user_id, $row['item_id'], $row['price'], $row['tax'], $row['amount']);
+        $params = array($order_id, $row['item_id'], $row['price'], $row['tax'], $row['amount']);
         execute_query($dbh, $sql, $params);
-        $history_id[] = $dbh->lastInsertId();
     }
-    return $history_id;
 }
 
 /**
@@ -156,12 +168,13 @@ function buy($dbh, $user_id, $rows) {
         $dbh->beginTransaction();
         update_items_stock($dbh, $rows);
         delete_carts($dbh, $rows);
-        $history_id = insert_historys($dbh, $user_id, $rows);
+        $order_id = insert_orders($dbh, $user_id);
+        insert_order_details($dbh, $order_id, $rows);
         $dbh->commit();
     } catch (PDOException $e) {
         throw $e;
     }
-    $_SESSION['history_id'] = $history_id;
+    $_SESSION['order_id'] = $order_id;
     header('Location: ' . FINISH_URL);
     exit;
 }

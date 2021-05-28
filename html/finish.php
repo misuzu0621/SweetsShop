@@ -28,10 +28,10 @@ try {
     $username = confirmation_username($row);
     
     // 購入完了のとき$_SESSION['history_id']取得, そうでないときカートページへ
-    $history_id = confirmation_history_id();
+    $order_id = get_order_id();
 
     // 購入した商品データ取得
-    $rows = get_buy_items($dbh, $history_id);
+    $rows = get_buy_items($dbh, $order_id);
     
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();
