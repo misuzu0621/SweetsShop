@@ -9,10 +9,10 @@ require_once MODEL_PATH . 'common_model.php';
  * 購入完了していないときカートページへ
  * @return array $_SESSION['history_id'] 履歴ID
  */
-function confirmation_history_id() {
-    if (isset($_SESSION['history_id'])) {
-        $history_id = $_SESSION['history_id'];
-        unset($_SESSION['history_id']);
+function get_order_id() {
+    if (isset($_SESSION['order_id'])) {
+        $history_id = $_SESSION['order_id'];
+        unset($_SESSION['order_id']);
         return $history_id;
     } else {
         header('Location: ' . CART_URL);
@@ -21,31 +21,27 @@ function confirmation_history_id() {
 }
 
 /**
- * 購入した商品一覧を取得
- * @param  obj   $dbh        DBハンドル
- * @param  array $history_id 履歴ID配列
- * @return array $rows       購入した商品一覧配列
+ * 購入した商品一覧を取得(二次元連想配列)
+ * @param  obj   $dbh      DBハンドル
+ * @param  int   $order_id 注文ID
+ * @return array 取得したレコード
  */
-function get_buy_items($dbh, $history_id) {
-    $rows = array();
-    foreach ($history_id as $key => $value) {
-        $sql = 'SELECT
-                    SS_history.item_id,
-                    SS_history.price_history,
-                    SS_history.tax_history,
-                    SS_history.amount,
-                    items.name,
-                    items.img
-                FROM
-                    SS_history
-                    INNER JOIN items
-                    ON SS_history.item_id = items.item_id
-                WHERE
-                    history_id = ?';
-        $params = array($value);
-        $rows[] = fetch_query($dbh, $sql, $params);
-    }
-    return $rows;
+function get_buy_items($dbh, $order_id) {
+    $sql = 'SELECT
+                order_details.order_id,
+                order_details.order_price,
+                order_details.order_tax,
+                order_details.amount,
+                items.name,
+                items.img
+            FROM
+                order_details
+                INNER JOIN items
+                ON order_details.item_id = items.item_id
+            WHERE
+                order_id = ?';
+    $params = array($order_id);
+    return fetch_all_query($dbh, $sql, $params);
 }
 
 /**
@@ -56,10 +52,10 @@ function get_buy_items($dbh, $history_id) {
 function get_sum($rows) {
     $sum = 0;
     foreach ($rows as $row) {
-        if ((int)$row['tax_history'] === 1) {
-            $subtotal = (int)$row['price_history'] * (int)$row['amount'] * TAX8K;
+        if ((int)$row['order_tax'] === 1) {
+            $subtotal = (int)$row['order_price'] * (int)$row['amount'] * TAX8K;
         } else {
-            $subtotal = (int)$row['price_history'] * (int)$row['amount'] * TAX10;
+            $subtotal = (int)$row['order_price'] * (int)$row['amount'] * TAX10;
         }
         $sum += $subtotal;
     }
