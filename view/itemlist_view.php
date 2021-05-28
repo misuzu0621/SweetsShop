@@ -9,8 +9,14 @@
     </head>
     <body>
         <header>
-            <!-- header_logined.php読み込み -->
-            <?php include VIEW_PATH . 'templates/header_logined.php'; ?>
+            <!-- ヘッダー読み込み -->
+            <?php
+                if ($user_id !== false) {
+                    include VIEW_PATH . 'templates/header_logined.php';
+                } else {
+                    include VIEW_PATH . 'templates/header_non_logined.php';
+                }
+            ?>
         </header>
         <main>
             <div class="container">

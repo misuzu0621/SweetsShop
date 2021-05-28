@@ -14,8 +14,12 @@ $err_msgs = array();
 // セッション開始
 session_start();
 
-// セッション変数からユーザID取得, 非ログインのときログインページへ
+// セッション変数からユーザID取得
 $user_id = get_user_id();
+// 取得できないときログインページへ
+if ($user_id === false) {
+    redirect_to(LOGIN_URL);
+}
 
 try {
     // DB接続

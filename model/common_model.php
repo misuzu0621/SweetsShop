@@ -103,15 +103,14 @@ function session_login() {
 
 /**
  * セッション変数からユーザIDを取得する
- * 非ログインの場合、ログインページへリダイレクト
  * @return str   $_SESSION['user_id']
+ * @return bool  false
  */
 function get_user_id() {
     if (isset($_SESSION['user_id'])) {
         return $_SESSION['user_id'];
     } else {
-        header('Location: ' . LOGIN_URL);
-        exit;
+        return false;
     }
 }
 
