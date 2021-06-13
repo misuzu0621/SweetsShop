@@ -17,7 +17,7 @@ try {
     $dbh = get_db_connect();
 
     // リクエストメソッドがPOSTのとき
-    if (get_request_method === 'POST') {
+    if (get_request_method() === 'POST') {
         
         // トークン取得
         $token = get_post_data('token');
