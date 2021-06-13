@@ -15,6 +15,7 @@ $category = get_category($type_id);
 
 $rows     = array();
 $err_msgs = array();
+$success_msg = '';
 
 // セッション開始
 session_start();
@@ -75,6 +76,9 @@ try {
     
                 // カートデータ追加
                 add_cart($dbh, $user_id, $item_id, $amount);
+
+                // 成功メッセージ代入
+                $success_msg = 'カートに追加しました';
             }
             
             // セッションの商品ID・数量を削除
