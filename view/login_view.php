@@ -36,18 +36,6 @@
                     <p>ユーザ名　：sample &ensp;</p>
                     <p>パスワード：password</p>
                 </div>
-                <section>
-                    <h2>&emsp;今月のおすすめ</h2>
-                    <div class="items">
-                        <!-- おすすめ商品 繰り返し -->
-                        <?php foreach ($rows as $row) { ?>
-                        <div class="item">
-                            <p><img src="<?php print ITEM_IMAGE_PATH . $row['img']; ?>" class="item_img"></p>
-                            <p><?php print h($row['name']); ?></p>
-                        </div>
-                        <?php } ?>
-                    </div>
-                </section>
             </div>
         </main>
         <footer>

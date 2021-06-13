@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
     <head>
         <!-- head.php読み込み -->
         <?php include VIEW_PATH . 'templates/head.php'; ?>
