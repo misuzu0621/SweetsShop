@@ -36,7 +36,7 @@ function get_user($dbh, $username, $password) {
 }
 
 /**
- * ユーザデータ(ユーザID)を取得できたとき、セッション変数にユーザIDを保存し商品一覧ページへ
+ * ユーザデータ(ユーザID)を取得できたとき、セッション変数にユーザIDを保存しトップページへ
  * 取得出来ないとき、エラーメッセージ取得
  * @param  array $row      ユーザデータ(ユーザID)
  * @return array $err_msgs エラーメッセージ
@@ -45,7 +45,7 @@ function confirmation_user_id($row) {
     $err_msg = '';
     if (isset($row['user_id'])) {
         $_SESSION['user_id'] = $row['user_id'];
-        header('Location: ' . ITEMLIST_URL);
+        header('Location: ' . TOP_URL);
         exit;
     } else {
         $err_msg = 'ユーザ名またはパスワードが正しくありません';
@@ -53,18 +53,3 @@ function confirmation_user_id($row) {
     return $err_msg;
 }
 
-/**
- * おすすめの商品データ取得(二次元連想配列)
- * @param  obj   $dbh  DBハンドル
- * @return array 取得したレコード
- */
-function get_recommend_items($dbh) {
-    $sql = 'SELECT
-                name, img
-            FROM
-                items
-            WHERE
-                recommend = 1
-                AND status = 1';
-    return fetch_all_query($dbh, $sql);
-}

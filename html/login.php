@@ -17,7 +17,6 @@ session_login();
 // クッキーからユーザ名を取得
 $username = cookie_get_username();
 
-$rows     = array();
 $err_msgs = array();
 
 try {
@@ -48,13 +47,10 @@ try {
         // ユーザデータ(ユーザID)取得(連想配列)
         $row = get_user($dbh, $username, $password);
         
-        // ユーザデータ(ユーザID)を取得できたとき、セッション変数にユーザIDを保存し商品一覧ページへ
+        // ユーザデータ(ユーザID)を取得できたとき、セッション変数にユーザIDを保存しトップページへ
         // 取得出来ないとき、エラーメッセージを取得
         $err_msgs[] = confirmation_user_id($row);
     }
-
-    // おすすめ商品データ取得(二次元連想配列)
-    $rows = get_recommend_items($dbh);
     
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();

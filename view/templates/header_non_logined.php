@@ -1,5 +1,5 @@
 <div class="container">
-    <h1>Sweets Shop</h1>
+    <h1><a href="<?php print TOP_URL; ?>">Sweets Shop</a></h1>
     <div class="menus">
         <div class="menu">
             <a href="<?php print LOGIN_URL; ?>">ログイン</a>

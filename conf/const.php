@@ -18,6 +18,7 @@ define('CHARSET', 'utf8');
 
 define('DSN', 'mysql:dbname=' . DB_NAME . ';host=' . HOST . ';charset=' . CHARSET);
 
+define('TOP_URL'               , '/top.php');                // トップページ
 define('REGISTER_URL'          , '/register.php');           // ユーザ登録ページ
 define('LOGIN_URL'             , '/login.php');              // ログインページ
 define('ADMIN_URL'             , '/admin.php');              // 管理ページ
