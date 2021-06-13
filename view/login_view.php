@@ -5,7 +5,7 @@
         <?php include VIEW_PATH . 'templates/head.php'; ?>
         <title>SweetsShop ログイン</title>
         <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common.css'; ?>">
-        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'login.css'; ?>">
+        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'login_2.css'; ?>">
     </head>
     <body>
         <header>
@@ -14,7 +14,6 @@
         </header>
         <main>
             <div class="container">
-                <img src="<?php print IMAGE_PATH . 'main_view.jpg'; ?>" class="main_view">
                 <!-- エラーメッセージ挿入 -->
                 <?php if (count($err_msgs) > 0) { ?>
                 <div class="err_msg">
@@ -31,6 +30,11 @@
                         <input type="hidden" name="token" value="<?php print $token; ?>">
                     </form>
                     <a href="<?php print REGISTER_URL; ?>" class="login_register">&rsaquo;&rsaquo;&nbsp;新規登録はこちら</a>
+                </div>
+                <div class="sample_user">
+                    <p>↑ このアカウントでもログイン出来ます ↑</p>
+                    <p>ユーザ名　：sample &ensp;</p>
+                    <p>パスワード：password</p>
                 </div>
                 <section>
                     <h2>&emsp;今月のおすすめ</h2>
