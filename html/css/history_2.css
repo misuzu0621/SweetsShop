@@ -3,32 +3,6 @@ main {
     padding-bottom: 50px;
 }
 
-/*
-.date {
-    clear: both;
-    padding-top: 15px;
-    margin-bottom: 5px;
-}
-
-.item_img {
-    float: left;
-    margin-right: 20px;
-}
-
-.history_info {
-    display: flex;
-}
-
-.history_info p {
-    flex: 1;
-    margin-top: 0;
-}
-
-.history_info form {
-    flex: 2
-}
-*/
-
 .orders>p {
     margin-top: 40px;
     padding: 10px 0;
