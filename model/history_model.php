@@ -33,6 +33,7 @@ function get_order_details($dbh, $orders) {
     $order_details = array();
     foreach ($orders as $order) {
         $sql = 'SELECT
+                order_details.item_id,
                 order_details.order_price,
                 order_details.order_tax,
                 order_details.amount,
