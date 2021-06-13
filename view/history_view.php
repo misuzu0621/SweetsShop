@@ -5,7 +5,7 @@
         <?php include VIEW_PATH . 'templates/head.php'; ?>
         <title>SweetsShop 購入履歴</title>
         <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common.css'; ?>">
-        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'history.css'; ?>">
+        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'history_2.css'; ?>">
     </head>
     <body>
         <header>
@@ -22,7 +22,7 @@
                 <!-- 購入履歴 繰り返し -->
                 <?php foreach ($orders as $key => $order) { ?>
                 <div class="orders">
-                    <p class="date"><?php print $order['createdate']; ?></p>
+                    <p><?php print $order['createdate']; ?></p>
                     <!-- 購入明細 繰り返し -->
                     <?php foreach ($order_details[$key] as $order_detail) { ?>
                     <div class="order_details">
@@ -35,7 +35,7 @@
                                 <p>小計&emsp;&nbsp;:&nbsp;<?php print get_tax_include_subtotal_price($order_detail); ?>円&nbsp;(税込)</p>
                             </div>
                             <div class="history_info">
-                                <p>現在&emsp;&nbsp;:&nbsp;<?php print get_tax_include_price_now($order_detail); ?>円&nbsp;(税込)</p>
+                                <p class="ppp">現在&emsp;&nbsp;:&nbsp;<?php print get_tax_include_price_now($order_detail); ?>円&nbsp;(税込)</p>
                                 <form method="post" class="history_info">
                                     <!-- 在庫なしのとき -->
                                     <?php if ((int)$order_detail['stock'] === 0) { ?>
