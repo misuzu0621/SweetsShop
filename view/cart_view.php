@@ -4,7 +4,7 @@
         <!-- head.php読み込み -->
         <?php include VIEW_PATH . 'templates/head.php'; ?>
         <title>SweetsShop ショッピングカート</title>
-        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common.css'; ?>">
+        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common_2.css'; ?>">
         <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'cart.css'; ?>">
     </head>
     <body>
@@ -15,6 +15,12 @@
         <main>
             <div class="container">
                 <h2>&emsp;カート</h2>
+                <!-- 成功メッセージ挿入 -->
+                <?php if ($success_msg !== '') { ?>
+                <div class="success_msg">
+                    <p><?php print $success_msg; ?></p>
+                </div>
+                <?php } ?>
                 <!-- エラーメッセージ挿入 -->
                 <?php if (count($err_msgs) > 0) { foreach ($err_msgs as $err_msg) { ?>
                 <p class="err_msg"><?php print $err_msg; ?></p>

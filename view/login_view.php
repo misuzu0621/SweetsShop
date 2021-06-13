@@ -4,7 +4,7 @@
         <!-- head.php読み込み -->
         <?php include VIEW_PATH . 'templates/head.php'; ?>
         <title>SweetsShop ログイン</title>
-        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common.css'; ?>">
+        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common_2.css'; ?>">
         <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'login_2.css'; ?>">
     </head>
     <body>

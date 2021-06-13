@@ -10,6 +10,7 @@ require_once MODEL_PATH . 'cart_model.php';
 
 $rows     = array();
 $err_msgs = array();
+$success_msg = '';
 
 // セッション開始
 session_start();
@@ -86,12 +87,18 @@ try {
                 
                 // カートデータ(数量)アップデート
                 update_cart_amount($dbh, $amount, $cart_id);
+
+                // 成功メッセージ
+                $success_msg = '個数を変更しました';
                 
             // 商品削除のとき
             } else if ($action === 'delete') {
                 
                 // カートの商品削除
                 delete_cart_item($dbh, $cart_id);
+
+                // 成功メッセージ代入
+                $success_msg = 'カートから削除しました';
                 
             // 購入のとき
             } else if ($action === 'buy') {
