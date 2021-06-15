@@ -113,6 +113,9 @@ try {
 
     // 商品一覧取得(二次元連想配列)
     $rows = get_itemlist($dbh, $category);
+
+    // 税込価格を商品データに追加
+    $rows = get_tax_include_prices($rows, 'price', 'tax', 'tax_include_price');
     
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();

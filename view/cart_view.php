@@ -26,12 +26,12 @@
                 <p class="err_msg"><?php print $err_msg; ?></p>
                 <?php } } ?>
                 <!-- 商品 繰り返し -->
-                <?php foreach($rows as $row) { ?>
+                <?php foreach($rows as $key => $row) { ?>
                 <div class="cart_item">
                     <p><img src="<?php print ITEM_IMAGE_PATH . $row['img']; ?>" class="item_img"></p>
                     <p><?php print h($row['name']); ?></p>
                     <div class="cart_info">
-                        <p><?php if ((int)$row['tax'] === 1) { print $row['price'] * TAX8K; } else { print $row['price'] * TAX10; } ?>円&nbsp;(税込)</p>
+                    <p><?php print $row['tax_include_price']; ?>円 (税込)</p>
                         <form method="post">
                             <p>
                                 <!-- 在庫が0のとき -->
@@ -48,7 +48,7 @@
                             <input type="hidden" name="item_id" value="<?php print $row['item_id']; ?>">
                             <input type="hidden" name="token" value="<?php print $token; ?>">
                         </form>
-                        <p>小計&nbsp;:&nbsp;<?php if ((int)$row['tax'] === 1) { print $row['price'] * $row['amount'] * TAX8K; } else { print $row['price'] * $row['amount'] * TAX10; } ?>円&nbsp;(税込)</p>
+                        <p>小計 : <?php print $row['subtotal_price']; ?>円 (税込)</p>
                         <form method="post">
                             <p><input type="submit" value="削除" class="submit update"></p>
                             <input type="hidden" name="action" value="delete">
@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <?php } ?>
-                <p class="sum">合計&nbsp;:&nbsp;<?php print $sum; ?>円&nbsp;(税込)</p>
+                <p class="sum">合計 : <?php print $total_price; ?>円 (税込)</p>
                 <?php if (!empty($rows)) { ?>
                 <form method="post">
                     <input type="submit" value="購入する" class="submit buy">

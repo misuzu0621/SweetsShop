@@ -299,3 +299,65 @@ function redirect_to($url) {
     header('Location: ' . $url);
     exit;
 }
+
+/**
+ * 商品データの特定のデータの配列を取得
+ * @param  array $rows       商品データ配列
+ * @param  str   $key_name   取得したいデータのキー名
+ * @return array $item_datas 取得したデータの配列
+ */
+function get_item_datas($rows, $key_name) {
+    $item_datas = array();
+    foreach ($rows as $row) {
+        $item_datas[] = $row[$key_name];
+    }
+    return $item_datas;
+}
+
+/**
+ * 税込価格を商品データに追加
+ * @param  array $rows                       商品データ配列
+ * @param  str   $price_key_name             価格のキー名
+ * @param  str   $tax_key_name               税率のキー名
+ * @param  str   $tax_include_price_key_name 税込価格のキー名
+ * @return array $rows                       税込価格を追加した商品データ配列
+ */
+function get_tax_include_prices($rows, $price_key_name, $tax_key_name, $tax_include_price_key_name) {
+    $prices = get_item_datas($rows, $price_key_name);
+    $taxes  = get_item_datas($rows, $tax_key_name);
+    foreach ($rows as $key => $row) {
+        if ($taxes[$key] === 1) {
+            $tax_include_price = $prices[$key] * TAX8K;
+        } else {
+            $tax_include_price = $prices[$key] * TAX10;
+        }
+        $rows[$key][$tax_include_price_key_name] = (int)$tax_include_price;
+    }
+    return $rows;
+}
+
+/**
+ * 税込小計金額を商品データに追加
+ * @param  array $rows                       商品データ配列
+ * @param  str   $tax_include_price_key_name 税込価格のキー名
+ * @return array $rows                       税込小計金額を追加した商品データ
+ */
+function get_subtotal_price($rows, $tax_include_price_key_name) {
+    foreach ($rows as $key => $row) {
+        $rows[$key]['subtotal_price'] = $row[$tax_include_price_key_name] * $row['amount'];
+    }
+    return $rows;
+}
+
+/**
+ * 税込合計金額取得
+ * @param  array $rows        商品データ配列
+ * @return int   $total_price 税込合計金額
+ */
+function get_total_price($rows) {
+    $tax_include_total_price = 0;
+    foreach ($rows as $row) {
+        $total_price += $row['subtotal_price'];
+    }
+    return $total_price;
+}

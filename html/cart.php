@@ -111,13 +111,19 @@ try {
 
     // カートの商品データ取得(二次元連想配列)
     $rows = get_cart_items($dbh, $user_id);
+
+    // 税込価格を商品データに追加
+    $rows = get_tax_include_prices($rows, 'price', 'tax', 'tax_include_price');
+
+    // 税込小計金額を商品データに追加
+    $rows = get_subtotal_price($rows, 'tax_include_price');
+    
+    // 税込合計金額取得
+    $total_price = get_total_price($rows);
     
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();
 }
-
-// 合計金額(税込)を取得
-$sum = get_sum($rows);
 
 // トークン生成
 $token = get_token();
