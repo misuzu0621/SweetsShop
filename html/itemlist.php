@@ -81,9 +81,10 @@ try {
                 $success_msg = 'カートに追加しました';
             }
             
-            // セッションの商品ID・数量を削除
+            // セッションの商品ID・数量・URLを削除
             unset($_SESSION['item_id']);
             unset($_SESSION['amount']);
+            unset($_SESSION['http_referer']);
         }
     
     // 未ログインかつカートに入れるボタンを押したとき
@@ -103,6 +104,8 @@ try {
         $_SESSION['amount']  = get_post_data('amount');
         // セッションに$_POST['item_id']登録
         $_SESSION['item_id'] = get_post_data('item_id');
+        // セッションに現在のURLを登録
+        $_SESSION['http_referer'] = $_SERVER['HTTP_REFERER'];
         
         // ログインページへ
         redirect_to(LOGIN_URL);
