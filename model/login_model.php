@@ -36,7 +36,7 @@ function get_user($dbh, $username, $password) {
 }
 
 /**
- * ユーザデータ(ユーザID)を取得できたとき、セッション変数にユーザIDを保存しトップページへ
+ * ユーザデータ(ユーザID)を取得できたとき、セッション変数にユーザIDを保存しログイン後のページへ
  * 取得出来ないとき、エラーメッセージ取得
  * @param  array $row      ユーザデータ(ユーザID)
  * @return array $err_msgs エラーメッセージ
@@ -45,11 +45,13 @@ function confirmation_user_id($row) {
     $err_msg = '';
     if (isset($row['user_id'])) {
         $_SESSION['user_id'] = $row['user_id'];
-        header('Location: ' . TOP_URL);
-        exit;
+        if (isset($_SESSION['http_referer'])) {
+            redirect_to($_SESSION['http_referer']);
+        } else {
+            redirect_to(TOP_URL);
+        }
     } else {
         $err_msg = 'ユーザ名またはパスワードが正しくありません';
     }
     return $err_msg;
 }
-
