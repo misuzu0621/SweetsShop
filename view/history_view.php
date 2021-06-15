@@ -28,7 +28,7 @@
                 <!-- 購入履歴 繰り返し -->
                 <?php foreach ($orders as $key => $order) { ?>
                 <div class="orders">
-                    <p><?php print $order['createdate']; ?></p>
+                    <p><?php print $order['createdate'] . '　　　合計 : ' . $order['total_price'] . '円 (税込)'; ?></p>
                     <!-- 購入明細 繰り返し -->
                     <?php foreach ($order_details[$key] as $order_detail) { ?>
                     <div class="order_details">
@@ -36,12 +36,12 @@
                         <div class="order_detail">
                             <p><?php print h($order_detail['name']); ?></p>
                             <div class="history_info">
-                                <p>購入時&nbsp;:&nbsp;<?php print get_tax_include_price_order($order_detail); ?>円&nbsp;(税込)</p>
+                                <p>購入時 : <?php print $order_detail['order_tax_include_price']; ?>円 (税込)</p>
                                 <p><?php print $order_detail['amount']; ?>個</p>
-                                <p>小計&emsp;&nbsp;:&nbsp;<?php print get_tax_include_subtotal_price($order_detail); ?>円&nbsp;(税込)</p>
+                                <p>小計　 : <?php print $order_detail['subtotal_price']; ?>円 (税込)</p>
                             </div>
                             <div class="history_info">
-                                <p class="ppp">現在&emsp;&nbsp;:&nbsp;<?php print get_tax_include_price_now($order_detail); ?>円&nbsp;(税込)</p>
+                                <p>現在　 : <?php print $order_detail['tax_include_price']; ?>円 (税込)</p>
                                 <form method="post" class="history_info">
                                     <!-- 在庫なしのとき -->
                                     <?php if ((int)$order_detail['stock'] === 0) { ?>

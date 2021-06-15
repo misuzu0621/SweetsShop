@@ -69,7 +69,23 @@ try {
     // 購入履歴データ取得
     $orders = get_orders($dbh, $user_id);
     
+    // 購入明細データ取得
     $order_details = get_order_details($dbh, $orders);
+
+    foreach ($orders as $key => $order) {
+
+        // 購入時の税込価格を商品データに追加
+        $order_details[$key] = get_tax_include_prices($order_details[$key], 'order_price', 'order_tax', 'order_tax_include_price');
+
+        // 現在の税込価格を商品データに追加
+        $order_details[$key] = get_tax_include_prices($order_details[$key], 'price', 'tax', 'tax_include_price');
+
+        // 税込小計金額を商品データに追加
+        $order_details[$key] = get_subtotal_price($order_details[$key], 'order_tax_include_price');
+        
+        // 税込合計金額を購入履歴データに追加
+        $orders[$key]['total_price'] = get_total_price($order_details[$key]);
+    }
     
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();

@@ -24,13 +24,13 @@
                     <img src="<?php print ITEM_IMAGE_PATH . $row['img']; ?>" class="item_img">
                     <p><?php print h($row['name']); ?></p>
                     <div class="buy_info">
-                        <p><?php if ((int)$row['order_tax'] === 1) { print $row['order_price'] * TAX8K; } else { print $row['order_price'] * TAX10; } ?>円&nbsp;(税込)</p>
+                        <p><?php print $row['tax_include_price']; ?>円 (税込)</p>
                         <p><?php print $row['amount']; ?>個</p>
-                        <p>小計&nbsp;:&nbsp;<?php if ((int)$row['order_tax'] === 1) { print $row['order_price'] * $row['amount'] * TAX8K; } else { print $row['order_price'] * $row['amount'] * TAX10; } ?>円&nbsp;(税込)</p>
+                        <p>小計 : <?php print $row['subtotal_price']; ?>円 (税込)</p>
                     </div>
                 </div>
                 <?php } ?>
-                <p class="sum">合計&nbsp;:&nbsp;<?php print $sum; ?>円&nbsp;(税込)</p>
+                <p class="sum">合計 : <?php print $total_price; ?>円 (税込)</p>
             </div>
         </main>
         <footer>

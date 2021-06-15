@@ -36,13 +36,19 @@ try {
 
     // 購入した商品データ取得
     $rows = get_buy_items($dbh, $order_id);
+
+    // 税込価格を商品データに追加
+    $rows = get_tax_include_prices($rows, 'order_price', 'order_tax', 'tax_include_price');
+
+    // 税込小計金額を商品データに追加
+    $rows = get_subtotal_price($rows, 'tax_include_price');
+
+    // 税込合計金額取得
+    $total_price = get_total_price($rows);
     
 } catch (PDOException $e) {
     $err_msgs[] = $e->getMessage();
 }
-
-// 合計金額(税込)を取得
-$sum = get_sum($rows);
 
 
 // viewファイル読み込み
