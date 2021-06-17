@@ -13,6 +13,6 @@ function get_userlist($dbh) {
     $sql = 'SELECT
                 user_id, username, password
             FROM
-                SS_users';
+                users';
     return fetch_all_query($dbh, $sql);
 }

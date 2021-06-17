@@ -3,7 +3,7 @@
     <head>
         <!-- head.php読み込み -->
         <?php include VIEW_PATH . 'templates/head.php'; ?>
-        <title>SweetsShop&nbsp;<?php print $category; ?></title>
+        <title>SweetsShop <?php print $category; ?></title>
         <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common_2.css'; ?>">
         <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'itemlist.css'; ?>">
     </head>

@@ -25,6 +25,8 @@
                 <?php if (count($err_msgs) > 0) { foreach ($err_msgs as $err_msg) { ?>
                 <p class="err_msg"><?php print $err_msg; ?></p>
                 <?php } } ?>
+                <!-- 購入履歴データ配列が空でないとき -->
+                <?php if (!empty($orders)) { ?>
                 <!-- 購入履歴 繰り返し -->
                 <?php foreach ($orders as $key => $order) { ?>
                 <div class="orders">
@@ -58,6 +60,9 @@
                         <?php } ?>
                         </div>
                     </div>
+                    <?php } ?>
+                    <?php } else { ?>
+                    <p>購入履歴はありません</p>
                     <?php } ?>
                 </div>
             </div>

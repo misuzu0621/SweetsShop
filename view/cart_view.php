@@ -25,6 +25,8 @@
                 <?php if (count($err_msgs) > 0) { foreach ($err_msgs as $err_msg) { ?>
                 <p class="err_msg"><?php print $err_msg; ?></p>
                 <?php } } ?>
+                <!-- 商品データ配列が空でないとき -->
+                <?php if (!empty($rows)) { ?>
                 <!-- 商品 繰り返し -->
                 <?php foreach($rows as $key => $row) { ?>
                 <div class="cart_item">
@@ -59,12 +61,13 @@
                 </div>
                 <?php } ?>
                 <p class="sum">合計 : <?php print $total_price; ?>円 (税込)</p>
-                <?php if (!empty($rows)) { ?>
                 <form method="post">
                     <input type="submit" value="購入する" class="submit buy">
                     <input type="hidden" name="action" value="buy">
                     <input type="hidden" name="token" value="<?php print $token; ?>">
                 </form>
+                <?php } else { ?>
+                <p>商品はありません</p>
                 <?php } ?>
             </div>
         </main>
