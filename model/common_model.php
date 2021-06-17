@@ -301,20 +301,6 @@ function redirect_to($url) {
 }
 
 /**
- * 商品データの特定のデータの配列を取得
- * @param  array $rows       商品データ配列
- * @param  str   $key_name   取得したいデータのキー名
- * @return array $item_datas 取得したデータの配列
- */
-function get_item_datas($rows, $key_name) {
-    $item_datas = array();
-    foreach ($rows as $row) {
-        $item_datas[] = $row[$key_name];
-    }
-    return $item_datas;
-}
-
-/**
  * 税込価格を商品データに追加
  * @param  array $rows                       商品データ配列
  * @param  str   $price_key_name             価格のキー名
@@ -323,13 +309,11 @@ function get_item_datas($rows, $key_name) {
  * @return array $rows                       税込価格を追加した商品データ配列
  */
 function get_tax_include_prices($rows, $price_key_name, $tax_key_name, $tax_include_price_key_name) {
-    $prices = get_item_datas($rows, $price_key_name);
-    $taxes  = get_item_datas($rows, $tax_key_name);
     foreach ($rows as $key => $row) {
-        if ($taxes[$key] === 1) {
-            $tax_include_price = $prices[$key] * TAX8K;
+        if ($row[$tax_key_name] === 1) {
+            $tax_include_price = $row[$price_key_name] * TAX8K;
         } else {
-            $tax_include_price = $prices[$key] * TAX10;
+            $tax_include_price = $row[$price_key_name] * TAX10;
         }
         $rows[$key][$tax_include_price_key_name] = (int)$tax_include_price;
     }
