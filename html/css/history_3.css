@@ -37,6 +37,10 @@ span {
     main {
         padding-top: 60px;
     }
+
+    .order_detail {
+        clear: both;
+    }
     
     .history_info {
         display: block;

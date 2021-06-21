@@ -4,7 +4,7 @@
         <!-- head.php読み込み -->
         <?php include VIEW_PATH . 'templates/head.php'; ?>
         <title>SweetsShop ショッピングカート</title>
-        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common_2.css'; ?>">
+        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common_3.css'; ?>">
         <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'cart.css'; ?>">
     </head>
     <body>
