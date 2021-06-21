@@ -5,7 +5,7 @@
         <?php include VIEW_PATH . 'templates/head.php'; ?>
         <title>SweetsShop トップページ</title>
         <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common_3.css'; ?>">
-        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'top.css'; ?>">
+        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'top_2.css'; ?>">
     </head>
     <body>
         <header>
@@ -28,6 +28,9 @@
                     <?php } ?>
                 </div>
                 <?php } ?>
+                <div class="title">
+                    <h1>Sweets Shop</h1>
+                </div>
                 <section>
                     <h2>&emsp;今月のおすすめ</h2>
                     <div class="items">
