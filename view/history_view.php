@@ -5,7 +5,7 @@
         <?php include VIEW_PATH . 'templates/head.php'; ?>
         <title>SweetsShop 購入履歴</title>
         <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'common_2.css'; ?>">
-        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'history_2.css'; ?>">
+        <link rel="stylesheet" href="<?php print STYLESHEET_PATH . 'history_3.css'; ?>">
     </head>
     <body>
         <header>
