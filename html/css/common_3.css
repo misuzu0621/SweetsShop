@@ -301,9 +301,8 @@ footer {
     }
     
     .item_img {
-        width: 100%;
-        height: auto;
-        object-fit: none;
+        width: 350px;
+        height: 260px;
     }
     
     .submit {
@@ -313,6 +312,15 @@ footer {
     .amount {
         width: 50%;
     }
+}
+
+@media screen and (max-width: 399px) {
+
+    .item_img {
+        width: 325px;
+        height: 240px;
+    }
+
 }
 
 
